@@ -1,0 +1,10 @@
+---
+applications:
+  - name: cfsample
+    memory: 1G
+    instances: 1  
+    path: target/cf-sample-0.1.war
+    buildpack: java_buildpack
+    services:
+      - mysql
+      - rabbitmq
