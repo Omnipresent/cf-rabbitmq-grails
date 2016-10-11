@@ -85,37 +85,23 @@ grails.hibernate.pass.readonly = false
 // configure passing read-only to OSIV session by default, requires "singleSession = false" OSIV mode
 grails.hibernate.osiv.readonly = false
 
-
-import org.springframework.cloud.CloudFactory
-import org.springframework.cloud.CloudException
-
-def cloud = null
-try {
-    cloud = new CloudFactory().cloud
-} catch (CloudException) {}
-
 environments {
     development {
         grails.logging.jul.usebridge = true
-    }
-    production {
-        grails.logging.jul.usebridge = false
         rabbitmq {
             connectionfactory {
-                def dbInfo = cloud?.getServiceInfo('rabbitmq')
-                username = dbInfo?.userName
-                password = dbInfo?.password
-                hostname = dbInfo?.host
-                port = dbInfo?.port
+                username = "guest"
+                password = "guest"
+                hostname = 'localhost'
+                port = '15672'
             }
             queues = {
                 exchange name: 'amq.direct', type: direct, durable: true, autoDelete: false, {
-                    queue1 durable: true  //, concurrentConsumers:10
-                    queue2 durable: true
+                    queueone durable: true  //, concurrentConsumers:10
+                    queuetwo durable: true
                 }
             }
         }
-        // TODO: grails.serverURL = "http://www.changeme.com"
     }
 }
 
